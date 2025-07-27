@@ -1,0 +1,10 @@
+.qtify-logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.qtify-logo {
+  height: 34px;
+  width: auto;
+  cursor: pointer;
+}
