@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Navbar from './Navbar/Navbar';
 import Hero from './Hero/Hero';
 import Section from './Section/Section';
 import FAQ from './FAQ/FAQ';
 import '../App.css';
+
+const API_BASE_URL = 'https://qtify-backend.labs.crio.do';
 
 const RETRY_INTERVAL = 2000;
 const MAX_RETRIES = 25;
@@ -24,19 +27,15 @@ const QTifyApp = () => {
       }
       try {
         const [topResponse, newResponse, songsResponse] = await Promise.all([
-          fetch('https://qtify-backend.labs.crio.do/albums/top'),
-          fetch('https://qtify-backend.labs.crio.do/albums/new'),
-          fetch('https://qtify-backend.labs.crio.do/songs')
+          axios.get(`${API_BASE_URL}/albums/top`),
+          axios.get(`${API_BASE_URL}/albums/new`),
+          axios.get(`${API_BASE_URL}/songs`)
         ]);
 
-        const topData = await topResponse.json();
-        const newData = await newResponse.json();
-        const songsData = await songsResponse.json();
-
         if (!cancelled) {
-          setTopAlbums(topData);
-          setNewAlbums(newData);
-          setSongs(songsData);
+          setTopAlbums(topResponse.data);
+          setNewAlbums(newResponse.data);
+          setSongs(songsResponse.data);
         }
       } catch (error) {
         attempt += 1;
