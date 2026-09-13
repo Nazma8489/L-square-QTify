@@ -1,0 +1,46 @@
+.qtify-carousel {
+  position: relative;
+}
+
+.qtify-carousel-track {
+  display: flex;
+  gap: 24px;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.qtify-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-black);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0;
+  transition: background-color 0.2s ease;
+}
+
+.qtify-carousel-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.qtify-carousel-arrow-left {
+  left: -16px;
+}
+
+.qtify-carousel-arrow-right {
+  right: -16px;
+}
+
+.qtify-carousel-arrow img {
+  width: 20px;
+  height: 20px;
+}

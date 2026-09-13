@@ -1,0 +1,41 @@
+.qtify-section {
+  padding: 24px 32px;
+}
+
+.qtify-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.qtify-section-title {
+  margin: 0;
+  color: var(--color-white);
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.qtify-section-toggle {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--color-primary);
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.qtify-section-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .qtify-section {
+    padding: 16px;
+  }
+}

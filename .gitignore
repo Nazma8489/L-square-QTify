@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# nested CRIO assessment repo (separate git remote)
+/nazma8489-ME_BUILDOUT_QTIFY_V2
+
