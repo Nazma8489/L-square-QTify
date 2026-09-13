@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Carousel from '../Carousel/Carousel';
@@ -15,12 +16,18 @@ const tabStyle = {
   padding: '0 12px',
 };
 
+const renderAlbumLink = (album, children) => (
+  <Link key={album.id} className="qtify-card-link" to={`/album/${album.slug || album.id}`}>
+    {children}
+  </Link>
+);
+
 const Section = ({ title, data = [], type, tabs = [], tabValue, onTabChange }) => {
   const [collapsed, setCollapsed] = useState(true);
 
   const renderCard = type === 'song'
     ? (song) => <SongCard key={song.id} song={song} />
-    : (album) => <AlbumCard key={album.id} album={album} />;
+    : (album) => renderAlbumLink(album, <AlbumCard album={album} />);
 
   return (
     <section className="qtify-section">
@@ -69,9 +76,7 @@ const Section = ({ title, data = [], type, tabs = [], tabValue, onTabChange }) =
           <Carousel data={data} renderCard={renderCard} />
         ) : (
           <div className="qtify-section-grid">
-            {data.map((album) => (
-              <AlbumCard key={album.id} album={album} />
-            ))}
+            {data.map((album) => renderAlbumLink(album, <AlbumCard album={album} />))}
           </div>
         ))
       )}

@@ -34,6 +34,11 @@
   gap: 24px;
 }
 
+.qtify-card-link {
+  display: block;
+  text-decoration: none;
+}
+
 @media (max-width: 768px) {
   .qtify-section {
     padding: 16px;

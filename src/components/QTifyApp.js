@@ -4,6 +4,7 @@ import Navbar from './Navbar/Navbar';
 import Hero from './Hero/Hero';
 import Section from './Section/Section';
 import FAQ from './FAQ/FAQ';
+import SongPlayer from './SongPlayer/SongPlayer';
 import '../App.css';
 
 const API_BASE_URL = 'https://qtify-backend.labs.crio.do';
@@ -69,7 +70,7 @@ const QTifyApp = () => {
 
   return (
     <div className="qtify-app">
-      <Navbar />
+      <Navbar albums={[...topAlbums, ...newAlbums]} />
       <Hero />
       <Section title="Top Albums" data={topAlbums} type="album" />
       <Section title="New Albums" data={newAlbums} type="album" />
@@ -82,6 +83,7 @@ const QTifyApp = () => {
         onTabChange={setSelectedTab}
       />
       <FAQ />
+      <SongPlayer songs={songs} />
     </div>
   );
 };

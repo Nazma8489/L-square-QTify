@@ -1,0 +1,128 @@
+.qtify-details {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px 64px 24px;
+}
+
+.qtify-details-back {
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 0;
+}
+
+.qtify-details-header {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.qtify-details-image {
+  width: 240px;
+  height: 240px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.qtify-details-info {
+  padding-top: 8px;
+}
+
+.qtify-details-title {
+  margin: 0 0 12px 0;
+  color: var(--color-white);
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.qtify-details-description {
+  margin: 16px 0 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.qtify-details-subtitle {
+  margin: 40px 0 16px 0;
+  color: var(--color-white);
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.qtify-details-songs {
+  display: flex;
+  flex-direction: column;
+}
+
+.qtify-details-song {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.qtify-details-song:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.qtify-details-song-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.qtify-details-song-title {
+  color: var(--color-white);
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  min-width: 0;
+}
+
+.qtify-details-song-artists {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
+.qtify-details-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.qtify-details-loading {
+  color: var(--color-white);
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+} 
+
+@media (max-width: 768px) {
+  .qtify-details-header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .qtify-details-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+}

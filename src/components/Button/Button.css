@@ -19,3 +19,8 @@
   background-color: var(--color-primary);
   color: var(--color-black);
 }
+
+.qtify-button-secondary {
+  background-color: transparent;
+  color: var(--color-white);
+}
