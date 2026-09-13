@@ -1,37 +1,72 @@
 import React, { useState } from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import Carousel from '../Carousel/Carousel';
 import { AlbumCard, SongCard } from '../Card/Card';
 import './Section.css';
 
-const Section = ({ title, data = [], type }) => {
-  const [collapsed, setCollapsed] = useState(true);
-  const sectionRef = React.useRef(null);
+const tabStyle = {
+  color: 'rgba(255, 255, 255, 0.6)',
+  fontFamily: 'Poppins, sans-serif',
+  fontWeight: 600,
+  fontSize: 16,
+  textTransform: 'uppercase',
+  minWidth: 'auto',
+  padding: '0 12px',
+};
 
-  const handleCollapseToggle = () => {
-    setCollapsed((prev) => !prev);
-  };
+const Section = ({ title, data = [], type, tabs = [], tabValue, onTabChange }) => {
+  const [collapsed, setCollapsed] = useState(true);
+
+  const renderCard = type === 'song'
+    ? (song) => <SongCard key={song.id} song={song} />
+    : (album) => <AlbumCard key={album.id} album={album} />;
 
   return (
-    <section className="qtify-section" ref={sectionRef}>
+    <section className="qtify-section">
       <div className="qtify-section-header">
         <h2 className="qtify-section-title">{title}</h2>
         {type === 'album' && data.length > 0 && (
           <button
             type="button"
             className="qtify-section-toggle"
-            onClick={handleCollapseToggle}
+            onClick={() => setCollapsed((prev) => !prev)}
           >
             {collapsed ? 'Show All' : 'Collapse'}
           </button>
         )}
       </div>
-      {type === 'album' ? (
+
+      {type === 'song' ? (
+        data.length > 0 && (
+          <>
+            <Tabs
+              value={tabValue}
+              onChange={(event, value) => onTabChange && onTabChange(value)}
+              sx={{
+                minHeight: 40,
+                marginBottom: '24px',
+                '& .MuiTabs-indicator': {
+                  backgroundColor: 'var(--color-primary)',
+                },
+                '& .MuiTab-root': tabStyle,
+                '& .MuiTab-root.Mui-selected': {
+                  color: 'var(--color-white)',
+                },
+              }}
+            >
+              <Tab value="all" label="All" />
+              {tabs.map((genre) => (
+                <Tab key={genre.key} value={genre.key} label={genre.label} />
+              ))}
+            </Tabs>
+            <Carousel key={tabValue} data={data} renderCard={renderCard} />
+          </>
+        )
+      ) : (
         data.length > 0 &&
         (collapsed ? (
-          <Carousel
-            data={data}
-            renderCard={(album) => <AlbumCard key={album.id} album={album} />}
-          />
+          <Carousel data={data} renderCard={renderCard} />
         ) : (
           <div className="qtify-section-grid">
             {data.map((album) => (
@@ -39,12 +74,6 @@ const Section = ({ title, data = [], type }) => {
             ))}
           </div>
         ))
-      ) : (
-        <div className="qtify-section-grid">
-          {data.map((song) => (
-            <SongCard key={song.id} song={song} />
-          ))}
-        </div>
       )}
     </section>
   );

@@ -15,6 +15,8 @@ const QTifyApp = () => {
   const [topAlbums, setTopAlbums] = useState([]);
   const [newAlbums, setNewAlbums] = useState([]);
   const [songs, setSongs] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [selectedTab, setSelectedTab] = useState('all');
 
   useEffect(() => {
     let cancelled = false;
@@ -26,16 +28,21 @@ const QTifyApp = () => {
         return;
       }
       try {
-        const [topResponse, newResponse, songsResponse] = await Promise.all([
+        const [topResponse, newResponse, songsResponse, genresResponse] = await Promise.all([
           axios.get(`${API_BASE_URL}/albums/top`),
           axios.get(`${API_BASE_URL}/albums/new`),
-          axios.get(`${API_BASE_URL}/songs`)
+          axios.get(`${API_BASE_URL}/songs`),
+          axios.get(`${API_BASE_URL}/genres`)
         ]);
 
         if (!cancelled) {
+          const genresData = Array.isArray(genresResponse.data)
+            ? genresResponse.data
+            : genresResponse.data.data;
           setTopAlbums(topResponse.data);
           setNewAlbums(newResponse.data);
           setSongs(songsResponse.data);
+          setGenres(genresData);
         }
       } catch (error) {
         attempt += 1;
@@ -55,13 +62,25 @@ const QTifyApp = () => {
     };
   }, []);
 
+  const filteredSongs =
+    selectedTab === 'all'
+      ? songs
+      : songs.filter((song) => song.genre && song.genre.key === selectedTab);
+
   return (
     <div className="qtify-app">
       <Navbar />
       <Hero />
       <Section title="Top Albums" data={topAlbums} type="album" />
       <Section title="New Albums" data={newAlbums} type="album" />
-      <Section title="Songs" data={songs} type="song" />
+      <Section
+        title="Songs"
+        data={filteredSongs}
+        type="song"
+        tabs={genres}
+        tabValue={selectedTab}
+        onTabChange={setSelectedTab}
+      />
       <FAQ />
     </div>
   );
