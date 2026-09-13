@@ -1,14 +1,48 @@
-import React, { useRef, useState } from 'react';
-import LeftArrow from '../../assets/LeftArrow.svg';
-import RightArrow from '../../assets/RightArrow.svg';
+import React, { useEffect, useRef, useState } from 'react';
+import ArrowLeft from './ArrowLeft';
+import ArrowRight from './ArrowRight';
 import './Carousel.css';
 
-const MAX_VISIBILITY = 5;
+const getVisibilityCount = () => {
+  const width = window.innerWidth;
+  if (width >= 1200) {
+    return 6;
+  }
+  if (width >= 900) {
+    return 5;
+  }
+  if (width >= 600) {
+    return 4;
+  }
+  return 3;
+};
 
 const Carousel = ({ data, renderCard }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [renderStart, setRenderStart] = useState(0);
+  const [visibility, setVisibility] = useState(() => getVisibilityCount());
   const timerRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const next = getVisibilityCount();
+      const maxIndex = Math.max(data.length - next, 0);
+      setVisibility(next);
+      setStartIndex((index) => Math.min(index, maxIndex));
+      setRenderStart((start) => Math.min(start, maxIndex));
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [data.length]);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   const scheduleRenderStart = (targetIndex) => {
     if (timerRef.current) {
@@ -23,7 +57,7 @@ const Carousel = ({ data, renderCard }) => {
     if (data.length === 0) {
       return;
     }
-    const next = Math.min(startIndex + 1, Math.max(data.length - MAX_VISIBILITY, 0));
+    const next = Math.min(startIndex + 1, Math.max(data.length - visibility, 0));
     setStartIndex(next);
     scheduleRenderStart(next);
   };
@@ -43,26 +77,14 @@ const Carousel = ({ data, renderCard }) => {
 
   return (
     <div className="qtify-carousel">
-      <button
-        className="qtify-carousel-arrow qtify-carousel-arrow-left"
-        onClick={handlePrev}
-        aria-label="Previous"
-      >
-        <img src={LeftArrow} alt="" />
-      </button>
+      <ArrowLeft onClick={handlePrev} />
       <div
         className="qtify-carousel-track"
         style={{ transform: `translateX(-${(startIndex - renderStart) * cardWidth}px)` }}
       >
         {visibleItems.map((item) => renderCard(item))}
       </div>
-      <button
-        className="qtify-carousel-arrow qtify-carousel-arrow-right"
-        onClick={handleNext}
-        aria-label="Next"
-      >
-        <img src={RightArrow} alt="" />
-      </button>
+      <ArrowRight onClick={handleNext} />
     </div>
   );
 };
